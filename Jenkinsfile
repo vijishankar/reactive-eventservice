@@ -16,4 +16,11 @@ node {
 				app.push('latest')
 			}
 		}
+	stage('Delpoying the App on Azure Kubernetes Service') {            
+    app = docker.image('cptdockerregistry.azurecr.io/event-service:latest')            
+    withDockerRegistry([credentialsId: 'acr-cred', url: 'https://cptdockerregistry.azurecr.io']) {            
+    app.pull()            
+    sh "kubectl create -f ."            
+    }       
+   }  
 }
